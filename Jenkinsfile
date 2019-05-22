@@ -44,105 +44,6 @@ pipeline {
 	// improvement.
 	MAKECMD = 'make --jobs --max-load 3.0'
 	//MAKECMD = 'make'
-
-	// Minerva operating profile.
-	MINERVA_INPUT_ONTOLOGIES = [
-	    "http://skyhook.berkeleybop.org/release/ontology/extensions/go-lego.owl"
-	].join(" ")
-
-	///
-	/// GOlr/AmiGO input.
-	///
-
-	// GOlr load profile.
-	GOLR_SOLR_MEMORY = "128G"
-	GOLR_LOADER_MEMORY = "192G"
-	GOLR_INPUT_ONTOLOGIES = [
-	    "http://skyhook.berkeleybop.org/release/ontology/extensions/go-gaf.owl",
-	    "http://skyhook.berkeleybop.org/release/ontology/extensions/gorel.owl",
-	    "http://skyhook.berkeleybop.org/release/ontology/extensions/go-modules-annotations.owl",
-	    "http://skyhook.berkeleybop.org/release/ontology/extensions/go-taxon-subsets.owl",
-	    "http://purl.obolibrary.org/obo/eco/eco-basic.owl",
-	    "http://purl.obolibrary.org/obo/ncbitaxon/subsets/taxslim.owl",
-	    "http://purl.obolibrary.org/obo/cl/cl-basic.owl",
-	    "http://purl.obolibrary.org/obo/pato.owl",
-	    "http://purl.obolibrary.org/obo/po.owl",
-	    "http://purl.obolibrary.org/obo/chebi.owl",
-	    "http://purl.obolibrary.org/obo/uberon/basic.owl",
-	    "http://purl.obolibrary.org/obo/wbbt.owl"
-	].join(" ")
-	GOLR_INPUT_GAFS = [
-	    "http://skyhook.berkeleybop.org/release/products/annotations/paint_other.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/aspgd.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/cgd.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/dictybase.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/ecocyc.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/fb.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/genedb_lmajor.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/genedb_pfalciparum.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/genedb_tbrucei.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/goa_chicken.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/goa_chicken_complex.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/goa_chicken_rna.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/goa_cow.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/goa_cow_complex.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/goa_cow_rna.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/goa_dog.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/goa_dog_complex.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/goa_dog_rna.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/goa_human.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/goa_human_complex.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/goa_human_rna.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/goa_pig.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/goa_pig_complex.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/goa_pig_rna.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/goa_uniprot_all_noiea.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/gramene_oryza.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/jcvi.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/mgi.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/pamgo_atumefaciens.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/pamgo_ddadantii.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/pamgo_mgrisea.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/pamgo_oomycetes.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/pombase.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/pseudocap.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/rgd.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/sgd.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/sgn.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/tair.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/wb.gaf.gz",
-	    "http://skyhook.berkeleybop.org/release/annotations/zfin.gaf.gz"
-	].join(" ")
-	GOLR_INPUT_PANTHER_TREES = [
-	    "http://skyhook.berkeleybop.org/release/products/panther/arbre.tgz"
-	].join(" ")
-
-	///
-	/// Groups to run and tests to avoid running during the current
-	/// mega-make.
-	///
-
-	// The gorule tag is used to identify which rules to suppress
-	// reports from during the megastep and during templating the
-	// reports after the megastep. The tags are currently
-	// respected at two times in the pipeline: the gorules report
-	// take the flag as a CLI argument, supressing it; ontobio
-	// takes it during the same stage as the JSON
-	// generation/parsing step, to supress the .md output. At this
-	// time, this variable can be either nothing or empty string
-	// for no rule suppression (default behavior everything), or a
-	// single value (practically speaking pretty much always
-	// "silent")
-	GORULE_TAGS_TO_SUPPRESS="silent"
-
-	// Optional. Groups to run.
-	//RESOURCE_GROUPS=""
-	// Optional. Datasets to skip within the resources that we
-	// will run (defined in the line above).
-	//DATASET_EXCLUDES=""
-	// Optional. This acts as an override, /if/ it's grabbed (as
-	// defined above).
-	//GOA_UNIPROT_ALL_URL=""
     }
     options{
 	timestamps()
@@ -214,7 +115,7 @@ pipeline {
 
 		    dir('./src/ontology') {
 			retry(3){
-			    sh 'sh run.sh make all'
+			    sh 'make all'
 			}
 		    }
 
