@@ -4,14 +4,14 @@ pipeline {
     // give us the max time in a day to get things right.
     triggers {
 	// Nightly @12am.
-	cron('0 0 2-31 * *')
+	cron('0 0 1-31 * *')
     }
     environment {
 	///
 	/// Automatic run variables.
 	///
 
-	// Pin dates and day to beginning of run.
+	// Acquire dates and day to beginning of run.
 	START_DATE = sh (
 	    script: 'date +%Y-%m-%d',
 	    returnStdout: true
@@ -27,11 +27,12 @@ pipeline {
 	///
 
 	// The branch of XYZ to use.
-	TARGET_XYZ_BRANCH = 'master'
-	// The people to call when things go bad. It is a comma-space
-	// "separated" string.
-	TARGET_ADMIN_EMAILS = 'sjcarbon@lbl.gov'
-	TARGET_SUCCESS_EMAILS = 'sjcarbon@lbl.gov,suzia@stanford.edu'
+	TARGET_ONTOLOGY_BRANCH = 'master'
+	TARGET_ONTOLOGY_URL = 'https://github.com/obophenotype/mammalian-phenotype-ontology.git'
+	// The people to call when things go bad or go well. It is a
+	// comma-space "separated" string.
+	TARGET_ADMIN_EMAILS = 'nicolas.matentzoglu@gmail.com'
+	TARGET_SUCCESS_EMAILS = 'nicolas.matentzoglu@gmail.com'
 	// This variable should typically be 'TRUE', which will cause
 	// some additional basic checks to be made. There are some
 	// very exotic cases where these check may need to be skipped
@@ -42,8 +43,8 @@ pipeline {
 	// wok has 48 "processors" over 12 "cores", so I have no idea;
 	// let's go with conservative and see if we get an
 	// improvement.
-	MAKECMD = 'make --jobs --max-load 3.0'
-	//MAKECMD = 'make'
+	//MAKECMD = 'make --jobs --max-load 3.0'
+	MAKECMD = 'make'
     }
     options{
 	timestamps()
@@ -107,8 +108,9 @@ pipeline {
 	    steps {
 		// Create a relative working directory and setup our
 		// data environment.
-		dir('./mammalian-phenotype-ontology') {
-		    git 'https://github.com/obophenotype/mammalian-phenotype-ontology.git'
+		dir('./ontology-repository-workspace') {
+		    git branch "${nv.TARGET_ONTOLOGY_BRANCH}",
+			url: "${env.TARGET_ONTOLOGY_BRANCH}"
 
 		    // Default namespace.
 		    sh 'OBO=http://purl.obolibrary.org/obo'
@@ -118,13 +120,6 @@ pipeline {
 			    sh 'make all'
 			}
 		    }
-
-		    // // Make sure that we copy any files there,
-		    // // including the core dump of produced.
-		    // withCredentials([file(credentialsId: 'skyhook-private-key', variable: 'SKYHOOK_IDENTITY')]) {
-		    // 	//sh 'rsync -avz -e "ssh -o StrictHostKeyChecking=no -o IdentitiesOnly=true -o IdentityFile=$SKYHOOK_IDENTITY" target/* skyhook@skyhook.berkeleybop.org:/home/skyhook/$BRANCH_NAME/ontology'
-		    // 	sh 'scp -o StrictHostKeyChecking=no -o IdentitiesOnly=true -o IdentityFile=$SKYHOOK_IDENTITY -r target/* skyhook@skyhook.berkeleybop.org:/home/skyhook/$BRANCH_NAME/ontology/'
-		    // }
 
 		    // Now that the files are safely away onto skyhook for
 		    // debugging, test for the core dump.
@@ -165,7 +160,7 @@ pipeline {
 	// Let's let our internal people know if things go badly.
 	failure {
 	    echo "There has been a failure in the ${env.BRANCH_NAME} pipeline."
-	    mail bcc: '', body: "There has been a pipeline failure in ${env.BRANCH_NAME}. Please see: https://build.obolibrary.io/job/OBOFoundry/job/pipeline-mp/job/${env.BRANCH_NAME}", cc: '', from: '', replyTo: '', subject: "MP Pipeline FAIL for ${env.BRANCH_NAME}", to: "${TARGET_ADMIN_EMAILS}"
+	    // mail bcc: '', body: "There has been a pipeline failure in ${env.BRANCH_NAME}. Please see: https://build.obolibrary.io/job/OBOFoundry/job/pipeline-mp/job/${env.BRANCH_NAME}", cc: '', from: '', replyTo: '', subject: "MP Pipeline FAIL for ${env.BRANCH_NAME}", to: "${TARGET_ADMIN_EMAILS}"
         }
     }
 }
