@@ -69,6 +69,7 @@ pipeline {
 		sh 'cat branch.txt'
 		sh 'echo $START_DAY > dow.txt'
 		sh 'echo "$START_DAY"'
+		archiveArtifacts artifacts: "env.txt"
 	    }
 	}
 	stage('Produce ontology') {
@@ -97,9 +98,9 @@ pipeline {
 		    }
 
 		    // Move the products to somewhere "safe".
-		    archiveArtifacts artifacts: "${ONTOLOGY_FILE_HINT}*.owl",
+		    archiveArtifacts artifacts: "src/ontology/${ONTOLOGY_FILE_HINT}*.owl",
 			onlyIfSuccessful: true
-		    archiveArtifacts artifacts: "${ONTOLOGY_FILE_HINT}*.obo",
+		    archiveArtifacts artifacts: "src/ontology/${ONTOLOGY_FILE_HINT}*.obo",
 			onlyIfSuccessful: true
 
 		    // Now that the files are safely away onto skyhook for
