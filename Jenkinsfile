@@ -109,7 +109,7 @@ pipeline {
 		// Create a relative working directory and setup our
 		// data environment.
 		dir('./ontology-repository-workspace') {
-		    git branch "${nv.TARGET_ONTOLOGY_BRANCH}",
+		    git branch "${env.TARGET_ONTOLOGY_BRANCH}",
 			url: "${env.TARGET_ONTOLOGY_BRANCH}"
 
 		    // Default namespace.
