@@ -4,7 +4,7 @@ pipeline {
     // give us the max time in a day to get things right.
     triggers {
 	// Nightly @12am.
-	cron('0 0 1-31 * *')
+	cron('H H(20-0) 1-31 * *')
     }
     environment {
 	///
