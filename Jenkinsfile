@@ -1,7 +1,8 @@
 pipeline {
     agent any
     // In additional to manual runs, trigger somewhere at midnight to
-    // give us the max time in a day to get things right.
+    // give us the max time in a day to get things right without
+    // disrupting people.
     triggers {
 	// Nightly, between 8pm-12:59pm PDT.
 	cron('H H(20-23) 1-31 * *')
