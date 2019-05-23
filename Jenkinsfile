@@ -3,8 +3,8 @@ pipeline {
     // In additional to manual runs, trigger somewhere at midnight to
     // give us the max time in a day to get things right.
     triggers {
-	// Nightly @12am.
-	cron('H H(20-24) 1-31 * *')
+	// Nightly, between 8pm-12:59pm PDT.
+	cron('H H(20-23) 1-31 * *')
     }
     environment {
 	///
