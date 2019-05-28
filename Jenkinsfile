@@ -45,6 +45,8 @@ pipeline {
 	// Control make to get through our loads faster if
 	// possible.
 	MAKECMD = 'make'
+	// Control the ROBOT environment.
+	ROBOT_JAVA_ARGS = '-Xmx12G'
     }
     options{
 	timestamps()
