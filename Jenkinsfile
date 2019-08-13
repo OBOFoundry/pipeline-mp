@@ -101,9 +101,13 @@ pipeline {
 		    }
 
 		    // Move the products to somewhere "safe".
-		    archiveArtifacts artifacts: "src/ontology/${ONTOLOGY_FILE_HINT}*.owl",
+		    archiveArtifacts artifacts: "src/ontology/${ONTOLOGY_FILE_HINT}-base.*",
 			onlyIfSuccessful: true
-		    archiveArtifacts artifacts: "src/ontology/${ONTOLOGY_FILE_HINT}*.obo",
+		    archiveArtifacts artifacts: "src/ontology/${ONTOLOGY_FILE_HINT}.*",
+			onlyIfSuccessful: true
+		    archiveArtifacts artifacts: "src/ontology/${ONTOLOGY_FILE_HINT}-simple-non-classified.*",
+			onlyIfSuccessful: true
+		    archiveArtifacts artifacts: "src/ontology/${ONTOLOGY_FILE_HINT}-full.*",
 			onlyIfSuccessful: true
 
 		    // Now that the files are safely away onto skyhook for
