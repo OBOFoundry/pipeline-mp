@@ -109,6 +109,8 @@ pipeline {
 			onlyIfSuccessful: true
 		    archiveArtifacts artifacts: "src/ontology/${ONTOLOGY_FILE_HINT}-full.*",
 			onlyIfSuccessful: true
+		    archiveArtifacts artifacts: "src/ontology/imports/*_import.owl",
+			onlyIfSuccessful: true
 
 		    // Now that the files are safely away onto skyhook for
 		    // debugging, test for the core dump.
