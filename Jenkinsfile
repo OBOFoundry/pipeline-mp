@@ -78,7 +78,7 @@ pipeline {
 	stage('Produce ontology') {
             agent {
                 docker {
-		    image 'obolibrary/odkfull:latest'
+		    image 'obolibrary/odkfull'
 		    // Reset Jenkins Docker agent default to original
 		    // root.
 		    args '-u root:root'
