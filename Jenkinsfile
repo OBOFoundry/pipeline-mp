@@ -82,6 +82,7 @@ pipeline {
 		    // Reset Jenkins Docker agent default to original
 		    // root.
 		    args '-u root:root'
+                    alwaysPull true
 		}
             }
 	    steps {
