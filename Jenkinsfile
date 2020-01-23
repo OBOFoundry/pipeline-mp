@@ -97,6 +97,7 @@ pipeline {
 
 		    dir('./src/ontology') {
 			retry(3){
+			    sh 'make mirror/mpath.owl'
 			    sh 'make prepare_release'
 			}
 		    }
