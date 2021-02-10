@@ -102,13 +102,13 @@ pipeline {
 		    }
 
 		    // Move the products to somewhere "safe".
-		    archiveArtifacts artifacts: "src/ontology/${ONTOLOGY_FILE_HINT}-base.*",
+		    archiveArtifacts artifacts: "${ONTOLOGY_FILE_HINT}-base.*",
 			onlyIfSuccessful: true
-		    archiveArtifacts artifacts: "src/ontology/${ONTOLOGY_FILE_HINT}.*",
+		    archiveArtifacts artifacts: "${ONTOLOGY_FILE_HINT}.*",
 			onlyIfSuccessful: true
-		    archiveArtifacts artifacts: "src/ontology/${ONTOLOGY_FILE_HINT}-simple-non-classified.*",
+		    archiveArtifacts artifacts: "${ONTOLOGY_FILE_HINT}-simple-non-classified.*",
 			onlyIfSuccessful: true
-		    archiveArtifacts artifacts: "src/ontology/${ONTOLOGY_FILE_HINT}-full.*",
+		    archiveArtifacts artifacts: "${ONTOLOGY_FILE_HINT}-full.*",
 			onlyIfSuccessful: true
 		    archiveArtifacts artifacts: "src/ontology/imports/*_import.owl",
 			onlyIfSuccessful: true
